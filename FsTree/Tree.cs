@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -12,6 +12,11 @@ namespace FsTree
         }
 
         public string StartDir { get; }
+
+        /// <summary>
+        /// Show unix "hidden" files/dirs like .git, .vs, .gitignore
+        /// </summary>
+        public bool ShowAll { get; set; } = false;
 
         public Action<string> Write { get; set; } = Console.Write;
         public Action<ConsoleColor> SetColor { get; set; } = color => Console.ForegroundColor = color;
@@ -49,7 +54,7 @@ namespace FsTree
         {
             var di = new DirectoryInfo(startDir);
             var fsItems = di.GetFileSystemInfos()
-                .Where(f => !f.Name.StartsWith(".")) // hide unix "hidden" files/dirs like .git, .vs. ToDo: add -a flag for all files
+                .Where(f => ShowAll || !f.Name.StartsWith(".")) // 
                 .OrderBy(f => f.Name)
                 .ToList();
 
