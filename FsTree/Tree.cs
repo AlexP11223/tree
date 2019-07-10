@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 
@@ -58,31 +58,28 @@ namespace FsTree
                 .OrderBy(f => f.Name)
                 .ToList();
 
-            for (int i = 0; i < fsItems.Count; i++)
+            foreach (var fsItem in fsItems.Take(fsItems.Count - 1))
             {
-                var fsItem = fsItems[i];
-                bool isLast = i == fsItems.Count - 1;
+                Write(prefix + "├── ");
+                WriteName(fsItem);
+                WriteLine();
+                if (fsItem.IsDirectory())
+                {
+                    PrintTree(fsItem.FullName, prefix + "│   ");
+                }
+            }
 
-                if (isLast)
+            var lastFsItem = fsItems.LastOrDefault();
+            if (lastFsItem != null)
+            {
+                Write(prefix + "└── ");
+                WriteName(lastFsItem);
+                WriteLine();
+                if (lastFsItem.IsDirectory())
                 {
-                    Write(prefix + "└── ");
-                    WriteName(fsItem);
-                    WriteLine();
-                    if (fsItem.IsDirectory())
-                    {
-                        PrintTree(fsItem.FullName, prefix + "    ");
-                    }
+                    PrintTree(lastFsItem.FullName, prefix + "    ");
                 }
-                else
-                {
-                    Write(prefix + "├── ");
-                    WriteName(fsItem);
-                    WriteLine();
-                    if (fsItem.IsDirectory())
-                    {
-                        PrintTree(fsItem.FullName, prefix + "│   ");
-                    }
-                }
+
             }
         }
     }
