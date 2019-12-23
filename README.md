@@ -11,7 +11,7 @@ Usage: FsTree [dir] [-a] [-L level]
   -a - show unix 'hidden' files/dirs like .git, .vs, .gitignore
   -L level - do not descend more than <level> directories deep
 Examples:
-  Fstree
-  Fstree myDir
-  Fstree -a -L 3
+  FsTree
+  FsTree myDir
+  FsTree -a -L 3
 ```
