@@ -79,7 +79,7 @@ namespace FsTree
 
             var di = new DirectoryInfo(startDir);
             var fsItems = di.GetFileSystemInfos()
-                .Where(f => ShowAll || !f.Name.StartsWith(".")) // 
+                .Where(f => ShowAll || !f.Name.StartsWith("."))
                 .OrderBy(f => f.Name)
                 .ToList();
 
