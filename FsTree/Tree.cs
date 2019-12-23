@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -23,7 +24,10 @@ namespace FsTree
 
         public ConsoleColor DefaultColor { get; set; } = Console.ForegroundColor;
         public ConsoleColor DirColor { get; set; } = ConsoleColor.Blue;
-        public ConsoleColor FileColor { get; set; } = ConsoleColor.Green;
+        public ConsoleColor FileColor { get; set; } = Console.ForegroundColor;
+        public ConsoleColor ExeColor { get; set; } = ConsoleColor.Green;
+
+        public HashSet<string> ExeExtensions { get; set; } = new HashSet<string> { ".exe", ".bat", ".cmd", ".com", ".ps1", ".vbs", ".vbe", ".wsf", ".wsh", ".msi", ".scr", ".reg" };
 
         public void Print()
         {
@@ -45,9 +49,23 @@ namespace FsTree
             SetColor(DefaultColor);
         }
 
+        private ConsoleColor GetColor(FileSystemInfo fsItem)
+        {
+            if (fsItem.IsDirectory())
+            {
+                return DirColor;
+            }
+            string ext = Path.GetExtension(fsItem.FullName).ToLower();
+            if (ExeExtensions.Contains(ext))
+            {
+                return ExeColor;
+            }
+            return FileColor;
+        }
+
         private void WriteName(FileSystemInfo fsItem)
         {
-            WriteColored(fsItem.Name, fsItem.IsDirectory() ? DirColor : FileColor);
+            WriteColored(fsItem.Name, GetColor(fsItem));
         }
 
         private void PrintTree(string startDir, string prefix = "")
