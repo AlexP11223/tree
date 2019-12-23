@@ -9,6 +9,10 @@ namespace FsTree
             Console.WriteLine("Usage: FsTree [dir] [-a] [-L level]");
             Console.WriteLine("  -a - show unix 'hidden' files/dirs like .git, .vs, .gitignore");
             Console.WriteLine("  -L level - do not descend more than <level> directories deep");
+            Console.WriteLine("Examples:");
+            Console.WriteLine("  Fstree");
+            Console.WriteLine("  Fstree myDir");
+            Console.WriteLine("  Fstree -a -L 3");
         }
 
         static void Main(string[] args)
