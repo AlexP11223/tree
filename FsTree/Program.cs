@@ -6,20 +6,28 @@ namespace FsTree
     {
         static void ShowUsage()
         {
-            Console.WriteLine("Usage: FsTree [dir] [-a]");
+            Console.WriteLine("Usage: FsTree [dir] [-a] [-L level]");
             Console.WriteLine("  -a - show unix 'hidden' files/dirs like .git, .vs, .gitignore");
+            Console.WriteLine("  -L level - do not descend more than <level> directories deep");
         }
 
         static void Main(string[] args)
         {
             string startDir = null;
             bool showAll = false;
-            // should use a library like https://github.com/commandlineparser/commandline but there are only 2 parameters for now, so whatever
-            foreach (var arg in args)
+            int maxDepth = int.MaxValue;
+            // should use a library like https://github.com/commandlineparser/commandline but there are only 3 parameters for now, so whatever
+            for (int i = 0; i < args.Length; i++)
             {
+                string arg = args[i];
                 if (arg == "-a")
                 {
                     showAll = true;
+                }
+                else if (arg == "-L")
+                {
+                    maxDepth = int.Parse(args[i + 1]);
+                    i++;
                 }
                 else
                 {
@@ -43,7 +51,8 @@ namespace FsTree
 
             new Tree(startDir)
             {
-                ShowAll = showAll
+                ShowAll = showAll,
+                MaxDepth = maxDepth,
             }.Print();
         }
     }

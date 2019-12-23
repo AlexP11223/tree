@@ -19,6 +19,8 @@ namespace FsTree
         /// </summary>
         public bool ShowAll { get; set; } = false;
 
+        public int MaxDepth { get; set; } = int.MaxValue;
+
         public Action<string> Write { get; set; } = Console.Write;
         public Action<ConsoleColor> SetColor { get; set; } = color => Console.ForegroundColor = color;
 
@@ -68,8 +70,13 @@ namespace FsTree
             WriteColored(fsItem.Name, GetColor(fsItem));
         }
 
-        private void PrintTree(string startDir, string prefix = "")
+        private void PrintTree(string startDir, string prefix = "", int depth = 0)
         {
+            if (depth >= MaxDepth)
+            {
+                return;
+            }
+
             var di = new DirectoryInfo(startDir);
             var fsItems = di.GetFileSystemInfos()
                 .Where(f => ShowAll || !f.Name.StartsWith(".")) // 
@@ -83,7 +90,7 @@ namespace FsTree
                 WriteLine();
                 if (fsItem.IsDirectory())
                 {
-                    PrintTree(fsItem.FullName, prefix + "│   ");
+                    PrintTree(fsItem.FullName, prefix + "│   ", depth + 1);
                 }
             }
 
@@ -95,7 +102,7 @@ namespace FsTree
                 WriteLine();
                 if (lastFsItem.IsDirectory())
                 {
-                    PrintTree(lastFsItem.FullName, prefix + "    ");
+                    PrintTree(lastFsItem.FullName, prefix + "    ", depth + 1);
                 }
 
             }
