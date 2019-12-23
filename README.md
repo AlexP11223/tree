@@ -1,12 +1,17 @@
 # tree
 
-![](https://i.imgur.com/PqOPdjp.png)
+![](https://i.imgur.com/v81Ctdf.png)
 
 C# implementation of unix-like `tree` command for listing contents of directories.
 
 Tested in VS 2017 with .NET 4.0, 4.6, probably works in other versions too.
 
 ```
-Usage: FsTree [dir] [-a]
+Usage: FsTree [dir] [-a] [-L level]
   -a - show unix 'hidden' files/dirs like .git, .vs, .gitignore
+  -L level - do not descend more than <level> directories deep
+Examples:
+  Fstree
+  Fstree myDir
+  Fstree -a -L 3
 ```
